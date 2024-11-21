@@ -15,11 +15,21 @@ slack:
             "value": "{{.app.status.sync.status}}",
             "short": true
           },
+          {{if not .app.spec.sources}}
           {
             "title": "Repository",
             "value": "{{.app.spec.source.repoURL}}",
             "short": true
           }
+          {{else}}
+            {{range $index, $source := .app.spec.sources}}
+            {
+              "title": "Repositories",
+              "value": "{{$source.repoURL}}",
+              "short": true
+            }
+            {{end}}
+          {{end}}
           {{range $index, $c := .app.status.conditions}}
           ,
           {
